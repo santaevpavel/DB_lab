@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Locale;
 
+import javax.sql.rowset.CachedRowSet;
+
 import oracle.jdbc.OracleDriver;
 
 public class DBOperations {
@@ -16,11 +18,24 @@ public class DBOperations {
 
 	public ResultSet Select(String query) throws SQLException {
 		ResultSet rSet;
+
 		rSet = stmt.executeQuery(query);
+		// System.out.println("Type " + rSet.getType(). + " " +
+		// rSet.getConcurrency());
+		// ResultSet rs=statement.executeQuery(sql);
+		int concur = rSet.getConcurrency();
+		if (concur == ResultSet.CONCUR_READ_ONLY) {
+			System.out.println("ResultSet is CONCUR_READ_ONLY");
+		} else if (concur == ResultSet.CONCUR_UPDATABLE) {
+			System.out.println("ResultSet is CONCUR_UPDATABLE");
+		} else {
+			System.out.println("ResultSet is Error");
+		}
 		return rSet;
 	}
 
 	public int UpdateQuery(String query) throws SQLException {
+
 		return stmt.executeUpdate(query);
 	}
 
@@ -37,7 +52,8 @@ public class DBOperations {
 			Connection connection = DriverManager.getConnection("jdbc:" + db
 					+ ":thin:@" + ipport + ":" + SID, Name, passwd);
 			conn = connection;
-			stmt = conn.createStatement();
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 		} catch (SQLException e) {
 			System.out.println("SQL Error " + e.getMessage());
 		}

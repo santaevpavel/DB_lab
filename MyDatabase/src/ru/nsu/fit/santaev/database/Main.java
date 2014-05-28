@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Set;
 
+import javax.sql.rowset.CachedRowSet;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -32,6 +33,7 @@ public class Main {
 		getAllSportsmens(datas, dbops);
 		getAllContests(datas, dbops);
 		getAllSportConstr(datas, dbops);
+		getAllOrganizers(datas, dbops);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
 
@@ -39,10 +41,176 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MyDBChangerFrame frame = new MyDBChangerFrame();
+				frame.buttonSportsmens.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						MyUpdateFrame update = new MyUpdateFrame();
+						update.setVisible(true);
+						try {
+							final ResultSet res = MyQueries
+									.SelectRowsSportsmensAllColums(dbops);
+							update.setTable(res);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				frame.buttonConstructions
+						.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								MyUpdateFrame update = new MyUpdateFrame();
+								update.setVisible(true);
+								try {
+									final ResultSet res = MyQueries
+											.SelectRowsSportConstAllColumns(dbops);
+									update.setTable(res);
+								} catch (SQLException e) {
+									e.printStackTrace();
+								}
+							}
+						});
+				frame.buttonPersons
+				.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						MyUpdateFrame update = new MyUpdateFrame();
+						update.setVisible(true);
+						try {
+							final ResultSet res = MyQueries
+									.SelectRowsPersonsAllColumns(dbops);
+							update.setTable(res);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				frame.buttonCoachs
+				.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						MyUpdateFrame update = new MyUpdateFrame();
+						update.setVisible(true);
+						try {
+							final ResultSet res = MyQueries
+									.SelectRowsCoachsAllColumns(dbops);
+							update.setTable(res);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				frame.buttonSportTypes
+				.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						MyUpdateFrame update = new MyUpdateFrame();
+						update.setVisible(true);
+						try {
+							final ResultSet res = MyQueries
+									.SelectRowsSportTypesAllColumns(dbops);
+							update.setTable(res);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				frame.buttonSportClubs
+				.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						MyUpdateFrame update = new MyUpdateFrame();
+						update.setVisible(true);
+						try {
+							final ResultSet res = MyQueries
+									.SelectRowsSportClubsAllColumns(dbops);
+							update.setTable(res);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				frame.buttonContestSportsmens
+				.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						MyUpdateFrame update = new MyUpdateFrame();
+						update.setVisible(true);
+						try {
+							final ResultSet res = MyQueries
+									.SelectRowsContestSportsmensAllColumns(dbops);
+							update.setTable(res);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				frame.buttonConstrTypes
+				.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						MyUpdateFrame update = new MyUpdateFrame();
+						update.setVisible(true);
+						try {
+							final ResultSet res = MyQueries
+									.SelectRowsConstrTypesAllColumns(dbops);
+							update.setTable(res);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				frame.buttonSportsmenCoach
+				.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						MyUpdateFrame update = new MyUpdateFrame();
+						update.setVisible(true);
+						try {
+							final ResultSet res = MyQueries
+									.SelectRowsSportsmenCoachsAllColumns(dbops);
+							update.setTable(res);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				frame.buttonContest
+				.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						MyUpdateFrame update = new MyUpdateFrame();
+						update.setVisible(true);
+						try {
+							final ResultSet res = MyQueries
+									.SelectRowsContestsAllColumns(dbops);
+							update.setTable(res);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				frame.buttonValue
+				.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						MyUpdateFrame update = new MyUpdateFrame();
+						update.setVisible(true);
+						try {
+							final ResultSet res = MyQueries
+									.SelectRowsValuesAllColumns(dbops);
+							update.setTable(res);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				
 				frame.setVisible(true);
+				
 			}
 		});
-		
+
 		// 1ый запрос
 		mainFrame.buttonQuery1.addActionListener(new ActionListener() {
 			@Override
@@ -63,8 +231,8 @@ public class Main {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						try {
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + "----- Result -----\n");
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + "----- Result -----\n");
 
 							ResultSet myRes = null;
 							if (text.getText().isEmpty()) {
@@ -79,19 +247,18 @@ public class Main {
 												jComboBox.getSelectedItem()),
 										Integer.valueOf(text.getText()));
 							}
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + MyQueries.getColumns(myRes));
-							int rowsCount = myRes.getMetaData()
-									.getColumnCount();
-							while (myRes.next()) {
-								String row = "";
-								for (int k = 1; k <= rowsCount; k++) {
-									row = row + myRes.getObject(k) + "\t";
-								}
-								myQueryFrame.results
-										.setText(myQueryFrame.results.getText()
-												+ row + "\n");
-							}
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + MyQueries.getColumns(myRes));
+							/*
+							 * int rowsCount = myRes.getMetaData()
+							 * .getColumnCount(); while (myRes.next()) { String
+							 * row = ""; for (int k = 1; k <= rowsCount; k++) {
+							 * row = row + myRes.getObject(k) + "\t"; }
+							 * myQueryFrame.results
+							 * .setText(myQueryFrame.results.getText() + row +
+							 * "\n"); }
+							 */
+							myQueryFrame.setTable(myRes);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -100,6 +267,7 @@ public class Main {
 				});
 			}
 		});
+
 		// 2ой запрос
 		mainFrame.buttonQuery2.addActionListener(new ActionListener() {
 			@Override
@@ -120,8 +288,8 @@ public class Main {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						try {
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + "----- Result -----\n");
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + "----- Result -----\n");
 
 							ResultSet myRes = null;
 							if (text.getText().isEmpty()) {
@@ -138,19 +306,18 @@ public class Main {
 																.getSelectedItem()),
 												Integer.valueOf(text.getText()));
 							}
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + MyQueries.getColumns(myRes));
-							int rowsCount = myRes.getMetaData()
-									.getColumnCount();
-							while (myRes.next()) {
-								String row = "";
-								for (int k = 1; k <= rowsCount; k++) {
-									row = row + myRes.getObject(k) + "\t";
-								}
-								myQueryFrame.results
-										.setText(myQueryFrame.results.getText()
-												+ row + "\n");
-							}
+							/*
+							 * myQueryFrame.results.setText(myQueryFrame.results
+							 * .getText() + MyQueries.getColumns(myRes)); int
+							 * rowsCount = myRes.getMetaData()
+							 * .getColumnCount(); while (myRes.next()) { String
+							 * row = ""; for (int k = 1; k <= rowsCount; k++) {
+							 * row = row + myRes.getObject(k) + "\t"; }
+							 * myQueryFrame.results
+							 * .setText(myQueryFrame.results.getText() + row +
+							 * "\n"); }
+							 */
+							myQueryFrame.setTable(myRes);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -179,8 +346,8 @@ public class Main {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						try {
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + "----- Result -----\n");
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + "----- Result -----\n");
 
 							ResultSet myRes = null;
 							if (text.getText().isEmpty()) {
@@ -199,19 +366,18 @@ public class Main {
 																.getSelectedItem()),
 												Integer.valueOf(text.getText()));
 							}
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + MyQueries.getColumns(myRes));
-							int rowsCount = myRes.getMetaData()
-									.getColumnCount();
-							while (myRes.next()) {
-								String row = "";
-								for (int k = 1; k <= rowsCount; k++) {
-									row = row + myRes.getObject(k) + "\t";
-								}
-								myQueryFrame.results
-										.setText(myQueryFrame.results.getText()
-												+ row + "\n");
-							}
+							/*
+							 * myQueryFrame.results.setText(myQueryFrame.results
+							 * .getText() + MyQueries.getColumns(myRes)); int
+							 * rowsCount = myRes.getMetaData()
+							 * .getColumnCount(); while (myRes.next()) { String
+							 * row = ""; for (int k = 1; k <= rowsCount; k++) {
+							 * row = row + myRes.getObject(k) + "\t"; }
+							 * myQueryFrame.results
+							 * .setText(myQueryFrame.results.getText() + row +
+							 * "\n"); }
+							 */
+							myQueryFrame.setTable(myRes);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -230,34 +396,34 @@ public class Main {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						try {
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + "----- Result -----\n");
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + "----- Result -----\n");
 
 							ResultSet myRes = MyQueries
 									.SelectRowsSportsmensIdWhereTypeBigger1(dbops);
 
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + MyQueries.getColumns(myRes));
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + MyQueries.getColumns(myRes));
 							int rowsCount = myRes.getMetaData()
 									.getColumnCount();
 							while (myRes.next()) {
 								int id = myRes.getInt(1);
 								String name = myRes.getString(2);
-								myQueryFrame.results
-										.setText(myQueryFrame.results.getText()
-												+ name + ":\n");
+								// myQueryFrame.results
+								// .setText(myQueryFrame.results.getText()
+								// + name + ":\n");
 								ResultSet myRes2 = MyQueries
 										.SelectRowsSportTypeForSportsmen(dbops,
 												id);
-								while (myRes2.next()) {
-									String row = "  ";
-									for (int k = 1; k <= rowsCount; k++) {
-										row = row + myRes2.getObject(k) + "\t";
-									}
-									myQueryFrame.results
-											.setText(myQueryFrame.results
-													.getText() + row + "\n");
-								}
+								/*
+								 * while (myRes2.next()) { String row = "  ";
+								 * for (int k = 1; k <= rowsCount; k++) { row =
+								 * row + myRes2.getObject(k) + "\t"; }
+								 * myQueryFrame.results
+								 * .setText(myQueryFrame.results .getText() +
+								 * row + "\n"); }
+								 */
+								myQueryFrame.setTable(myRes2);
 							}
 						} catch (SQLException e) {
 							e.printStackTrace();
@@ -284,8 +450,8 @@ public class Main {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						try {
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + "----- Result -----\n");
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + "----- Result -----\n");
 
 							ResultSet myRes = null;
 
@@ -294,19 +460,67 @@ public class Main {
 									datas.getSportsmens().get(
 											jComboBox.getSelectedItem()));
 
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + MyQueries.getColumns(myRes));
-							int rowsCount = myRes.getMetaData()
-									.getColumnCount();
-							while (myRes.next()) {
-								String row = "";
-								for (int k = 1; k <= rowsCount; k++) {
-									row = row + myRes.getObject(k) + "\t";
-								}
-								myQueryFrame.results
-										.setText(myQueryFrame.results.getText()
-												+ row + "\n");
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + MyQueries.getColumns(myRes));
+							/*
+							 * int rowsCount = myRes.getMetaData()
+							 * .getColumnCount(); while (myRes.next()) { String
+							 * row = ""; for (int k = 1; k <= rowsCount; k++) {
+							 * row = row + myRes.getObject(k) + "\t"; }
+							 * myQueryFrame.results
+							 * .setText(myQueryFrame.results.getText() + row +
+							 * "\n"); }
+							 */
+							myQueryFrame.setTable(myRes);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+			}
+		});
+		// 6ый запрос
+		mainFrame.buttonQuery6.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				final JComboBox<String> jComboBox = new JComboBox<String>();
+				final Checkbox cb = new Checkbox("Поиск по организатору");
+				final JTextField text1 = new JTextField("01.01.2013");
+				final JTextField text2 = new JTextField("01.09.2014");
+				text1.setBounds(400, 10, 200, 30);
+				text2.setBounds(610, 10, 200, 30);
+				cb.setBounds(820, 10, 200, 30);
+				Collection<String> keys = datas.getOrganazers().keySet();
+				for (int i = 0; i < keys.toArray().length; i++) {
+					jComboBox.addItem((String) keys.toArray()[i]);
+				}
+				jComboBox.setBounds(120, 10, 200, 30);
+				final MyQueryFrame myQueryFrame = new MyQueryFrame();
+				myQueryFrame.setVisible(true);
+				myQueryFrame.mainPanel.add(jComboBox);
+				myQueryFrame.mainPanel.add(text1);
+				myQueryFrame.mainPanel.add(text2);
+				myQueryFrame.mainPanel.add(cb);
+				myQueryFrame.buttonOk.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+
+							ResultSet myRes = null;
+							if (cb.getState()) {
+								myRes = MyQueries.SelectRowsContestFromDate(
+										dbops, text1.getText(), text2.getText());
+							} else {
+								myRes = MyQueries.SelectRowsContestFromDateAndOrganizer(
+										dbops,
+										text1.getText(),
+										text2.getText(),
+										datas.getOrganazers().get(
+												jComboBox.getSelectedItem()));
 							}
+
+							myQueryFrame.setTable(myRes);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -332,8 +546,8 @@ public class Main {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						try {
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + "----- Result -----\n");
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + "----- Result -----\n");
 
 							ResultSet myRes = null;
 
@@ -342,19 +556,18 @@ public class Main {
 									datas.getContests().get(
 											jComboBox.getSelectedItem()));
 
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + MyQueries.getColumns(myRes));
-							int rowsCount = myRes.getMetaData()
-									.getColumnCount();
-							while (myRes.next()) {
-								String row = "";
-								for (int k = 1; k <= rowsCount; k++) {
-									row = row + myRes.getObject(k) + "\t";
-								}
-								myQueryFrame.results
-										.setText(myQueryFrame.results.getText()
-												+ row + "\n");
-							}
+							/*
+							 * myQueryFrame.results.setText(myQueryFrame.results
+							 * .getText() + MyQueries.getColumns(myRes)); int
+							 * rowsCount = myRes.getMetaData()
+							 * .getColumnCount(); while (myRes.next()) { String
+							 * row = ""; for (int k = 1; k <= rowsCount; k++) {
+							 * row = row + myRes.getObject(k) + "\t"; }
+							 * myQueryFrame.results
+							 * .setText(myQueryFrame.results.getText() + row +
+							 * "\n"); }
+							 */
+							myQueryFrame.setTable(myRes);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -393,34 +606,36 @@ public class Main {
 					public void actionPerformed(ActionEvent arg0) {
 						try {
 							ResultSet myRes = null;
-							myQueryFrame.results
-							.setText(myQueryFrame.results.getText()
-									+ "----- Result -----\n");		
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + "----- Result -----\n");
 							if (!cb.getState()) {
 								myRes = MyQueries.SelectRowsContestFromConstr(
 										dbops,
 										datas.getSportConstr().get(
 												jComboBox.getSelectedItem()));
-							}else{
-								myRes = MyQueries.SelectRowsContestFromConstrAndSportType(
-										dbops,
-										datas.getSportConstr().get(
-												jComboBox.getSelectedItem()), datas.getSportTypes().get(
-														jComboBox2.getSelectedItem()));
+							} else {
+								myRes = MyQueries
+										.SelectRowsContestFromConstrAndSportType(
+												dbops,
+												datas.getSportConstr()
+														.get(jComboBox
+																.getSelectedItem()),
+												datas.getSportTypes()
+														.get(jComboBox2
+																.getSelectedItem()));
 							}
-							myQueryFrame.results.setText(myQueryFrame.results
-									.getText() + MyQueries.getColumns(myRes));
-							int rowsCount = myRes.getMetaData()
-									.getColumnCount();
-							while (myRes.next()) {
-								String row = "";
-								for (int k = 1; k <= rowsCount; k++) {
-									row = row + myRes.getObject(k) + "\t";
-								}
-								myQueryFrame.results
-										.setText(myQueryFrame.results.getText()
-												+ row + "\n");
-							}
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + MyQueries.getColumns(myRes));
+							/*
+							 * int rowsCount = myRes.getMetaData()
+							 * .getColumnCount(); while (myRes.next()) { String
+							 * row = ""; for (int k = 1; k <= rowsCount; k++) {
+							 * row = row + myRes.getObject(k) + "\t"; }
+							 * myQueryFrame.results
+							 * .setText(myQueryFrame.results.getText() + row +
+							 * "\n"); }
+							 */
+							myQueryFrame.setTable(myRes);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -429,13 +644,176 @@ public class Main {
 				});
 			}
 		});
-		/*
-		 * ResultSet myRes = MyQueries.SelectRowsConstrFromId(dbops, 1); int
-		 * rowsCount = myRes.getMetaData().getColumnCount(); while
-		 * (myRes.next()) { String row = ""; for (int k = 1; k < rowsCount;
-		 * k++){ row = row + myRes.getObject(k) + " "; }
-		 * System.out.println(row); }
-		 */
+		// 9ой запрос
+		mainFrame.buttonQuery9.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				final JTextField text1 = new JTextField("01.01.2013");
+				final JTextField text2 = new JTextField("01.09.2014");
+				text1.setBounds(200, 10, 200, 30);
+				text2.setBounds(450, 10, 200, 30);
+				final MyQueryFrame myQueryFrame = new MyQueryFrame();
+				myQueryFrame.setVisible(true);
+				myQueryFrame.mainPanel.add(text1);
+				myQueryFrame.mainPanel.add(text2);
+				myQueryFrame.buttonOk.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							ResultSet myRes = null;
+							// myQueryFrame.results.setText(myQueryFrame.results
+							// .getText() + "----- Result -----\n");
+
+							myRes = MyQueries
+									.SelectRowsSportClubFromContestTime(dbops,
+											text1.getText(), text2.getText());
+
+							/*
+							 * myQueryFrame.results.setText(myQueryFrame.results
+							 * .getText() + MyQueries.getColumns(myRes)); int
+							 * rowsCount = myRes.getMetaData()
+							 * .getColumnCount(); while (myRes.next()) { String
+							 * row = ""; for (int k = 1; k <= rowsCount; k++) {
+							 * row = row + myRes.getObject(k) + "\t"; }
+							 * myQueryFrame.results
+							 * .setText(myQueryFrame.results.getText() + row +
+							 * "\n"); }
+							 */
+							myQueryFrame.setTable(myRes);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+			}
+		});
+		// 10ый запрос
+		mainFrame.buttonQuery10.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				final JComboBox<String> jComboBox = new JComboBox<String>();
+				Collection<String> keys = datas.getSportTypes().keySet();
+				for (int i = 0; i < keys.toArray().length; i++) {
+					jComboBox.addItem((String) keys.toArray()[i]);
+				}
+				jComboBox.setBounds(120, 10, 200, 30);
+				final MyQueryFrame myQueryFrame = new MyQueryFrame();
+				myQueryFrame.setVisible(true);
+				myQueryFrame.mainPanel.add(jComboBox);
+				myQueryFrame.buttonOk.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							ResultSet myRes = null;
+
+							myRes = MyQueries.SelectRowsCoachFromSortType(
+									dbops,
+									datas.getSportTypes().get(
+											jComboBox.getSelectedItem()));
+
+							myQueryFrame.setTable(myRes);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+			}
+		});
+		// 11ой запрос
+		mainFrame.buttonQuery11.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				final JTextField text1 = new JTextField("01.01.2013");
+				final JTextField text2 = new JTextField("01.09.2014");
+				text1.setBounds(200, 10, 200, 30);
+				text2.setBounds(450, 10, 200, 30);
+				final MyQueryFrame myQueryFrame = new MyQueryFrame();
+				myQueryFrame.setVisible(true);
+				myQueryFrame.mainPanel.add(text1);
+				myQueryFrame.mainPanel.add(text2);
+				myQueryFrame.buttonOk.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							ResultSet myRes = null;
+
+							myRes = MyQueries
+									.SelectRowsSportsmenWitchNotPlayed(dbops,
+											text1.getText(), text2.getText());
+							myQueryFrame.setTable(myRes);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+			}
+		});
+		// 12ой запрос
+		mainFrame.buttonQuery12.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				final JTextField text1 = new JTextField("01.01.2013");
+				final JTextField text2 = new JTextField("01.09.2014");
+				text1.setBounds(200, 10, 200, 30);
+				text2.setBounds(450, 10, 200, 30);
+				final MyQueryFrame myQueryFrame = new MyQueryFrame();
+				myQueryFrame.setVisible(true);
+				myQueryFrame.mainPanel.add(text1);
+				myQueryFrame.mainPanel.add(text2);
+				myQueryFrame.buttonOk.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							ResultSet myRes = null;
+
+							myRes = MyQueries
+									.SelectRowsOrganizersAndContestCountFromDate(
+											dbops, text1.getText(),
+											text2.getText());
+							myQueryFrame.setTable(myRes);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+			}
+		});
+		// 12ой запрос
+		mainFrame.buttonQuery13.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				final JTextField text1 = new JTextField("01.01.2013");
+				final JTextField text2 = new JTextField("01.09.2014");
+				text1.setBounds(200, 10, 200, 30);
+				text2.setBounds(450, 10, 200, 30);
+				final MyQueryFrame myQueryFrame = new MyQueryFrame();
+				myQueryFrame.setVisible(true);
+				myQueryFrame.mainPanel.add(text1);
+				myQueryFrame.mainPanel.add(text2);
+				myQueryFrame.buttonOk.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							ResultSet myRes = null;
+
+							myRes = MyQueries
+									.SelectRowsSportConstAndDateFromDate(
+											dbops, text1.getText(),
+											text2.getText());
+							myQueryFrame.setTable(myRes);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+			}
+		});
+
 		mainFrame.addWindowListener(new WindowListener() {
 
 			@Override
@@ -548,6 +926,19 @@ public class Main {
 			int id = myRes.getInt(1);
 			String name = myRes.getString(2);
 			datas.getSportConstr().put(name, id);
+			System.out.println("" + id + " " + name);
+		}
+	}
+
+	public static void getAllOrganizers(Datas datas, DBOperations dbops)
+			throws SQLException {
+		ResultSet myRes = MyQueries.SelectRowsAllOrganazers(dbops);
+		// int rowsCount = myRes.getMetaData().getColumnCount();
+		System.out.println("-- Organazers -- ");
+		while (myRes.next()) {
+			int id = myRes.getInt(1);
+			String name = myRes.getString(2);
+			datas.getOrganazers().put(name, id);
 			System.out.println("" + id + " " + name);
 		}
 	}

@@ -11,6 +11,7 @@ public class Datas {
 	private Map<String, Integer> sportsmens = new HashMap<String, Integer>();
 	private Map<String, Integer> contests = new HashMap<String, Integer>();
 	private Map<String, Integer> sportConstr = new HashMap<String, Integer>();
+	private Map<String, Integer> organazers = new HashMap<String, Integer>();
 	//private Map<Integer, String> contructionTypes = new HashMap<Integer, String>();
 
 	public Map<String, Integer> getContructionTypes() {
@@ -59,6 +60,14 @@ public class Datas {
 
 	public void setSportConstr(Map<String, Integer> sportConstr) {
 		this.sportConstr = sportConstr;
+	}
+
+	public Map<String, Integer> getOrganazers() {
+		return organazers;
+	}
+
+	public void setOrganazers(Map<String, Integer> organazers) {
+		this.organazers = organazers;
 	}
 	
 }
